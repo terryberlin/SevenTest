@@ -3,12 +3,14 @@ package main
 import (
 	"log"
 
-	_ "github.com/quikserve/SevenTest/locations"
+	"github.com/quikserve/SevenTest/locations"
+	"github.com/quikserve/SevenTest/users"
 )
-
-//"github.com/quikserve/7ShiftTest/locations"
 
 func main() {
 	log.Println("Call locations package")
-	locations.mainLocations()
+	locations.MainLocations()
+
+	log.Println("Call usres package")
+	users.MainUsers()
 }

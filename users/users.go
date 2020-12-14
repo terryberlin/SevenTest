@@ -1,11 +1,10 @@
-package locations
+package users
 
 import (
 	"io/ioutil"
 	"os"
 	"os/exec"
 
-	//"database/sql"
 	"fmt"
 	"log"
 
@@ -27,8 +26,7 @@ type (
 	}
 )
 
-//MainLocations is a function to import locations
-func MainLocations() {
+func MainUsers() {
 	LocationLists()
 }
 
@@ -52,12 +50,11 @@ func LocationLists() {
         select location_id as LocationID, api_key as APIKey
         from quikserve.dbo.seven_shifts_locations s
 	`
-	//sql1 = "select 1 as LocationID, 1 as APIKey"
 
 	LocationLists := []LocationList{}
-	err2 := DB().Select(&LocationLists, sql2)
-	if err2 != nil {
-		log.Println(err2)
+	err := DB().Select(&LocationLists, sql2)
+	if err != nil {
+		log.Println(err)
 	}
 
 	var LocationID string
@@ -81,13 +78,14 @@ func LocationLists() {
 //ContactAPI is a function that contacts the weather API.
 func ContactAPI(LocationID string, key string) {
 
-	log.Println("Getting details for Location:", LocationID)
+	log.Println("Getting Users for Location:", LocationID)
 
-	url := "https://api.7shifts.com/v1/locations"
+	//curl https://api.7shifts.com/v1/locations \-u f:
+	url := fmt.Sprintf("https://api.7shifts.com/v1/users/?location_id=%s", LocationID)
 
 	c := exec.Command("curl", "-u", key, url)
 	c.Stdout = os.Stdout
-	outfile, err1 := os.Create("./locations.json")
+	outfile, err1 := os.Create("./users.json")
 	if err1 != nil {
 		fmt.Println("Error:", err1)
 	}
@@ -100,7 +98,7 @@ func ContactAPI(LocationID string, key string) {
 		fmt.Println("Error:", err)
 	}
 
-	content, err := ioutil.ReadFile("./locations.json")
+	content, err := ioutil.ReadFile("./users.json")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -115,7 +113,7 @@ func ContactAPI(LocationID string, key string) {
 func PostIt(text string, key string) {
 	//log.Println("95")
 	listposts := []ListPosts{}
-	sql := `exec crm.dbo.import_seven_shifts_locations $1, $2`
+	sql := `exec crm.dbo.import_seven_shifts_users $1, $2`
 
 	err := DB().Select(&listposts, sql, text, key)
 	if err != nil {
