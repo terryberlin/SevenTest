@@ -1,16 +1,13 @@
 package users
 
 import (
+	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
 
-	"fmt"
-	"log"
-
-	_ "github.com/denisenkom/go-mssqldb"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
+	"github.com/quikserve/SevenTest/db"
 )
 
 type (
@@ -26,6 +23,7 @@ type (
 	}
 )
 
+//MainUsers is a function
 func MainUsers() {
 	LocationLists()
 }
@@ -41,7 +39,7 @@ func LocationLists() {
 	listposts := []ListPosts{}
 	sql1 := `exec crm.dbo.key_status $1`
 
-	err1 := DB().Select(&listposts, sql1, status)
+	err1 := db.MyDB().Select(&listposts, sql1, status)
 	if err1 != nil {
 		log.Println(err1)
 	}
@@ -52,7 +50,7 @@ func LocationLists() {
 	`
 
 	LocationLists := []LocationList{}
-	err := DB().Select(&LocationLists, sql2)
+	err := db.MyDB().Select(&LocationLists, sql2)
 	if err != nil {
 		log.Println(err)
 	}
@@ -69,7 +67,7 @@ func LocationLists() {
 	listposts = []ListPosts{}
 	sql3 := `exec crm.dbo.key_status $1`
 
-	err3 := DB().Select(&listposts, sql3, status)
+	err3 := db.MyDB().Select(&listposts, sql3, status)
 	if err3 != nil {
 		log.Println(err3)
 	}
@@ -78,7 +76,7 @@ func LocationLists() {
 //ContactAPI is a function that contacts the weather API.
 func ContactAPI(LocationID string, key string) {
 
-	log.Println("Getting Users for Location:", LocationID)
+	log.Println("Getting USERS for Location:", LocationID)
 
 	//curl https://api.7shifts.com/v1/locations \-u f:
 	url := fmt.Sprintf("https://api.7shifts.com/v1/users/?location_id=%s", LocationID)
@@ -105,33 +103,18 @@ func ContactAPI(LocationID string, key string) {
 
 	text := string(content)
 
-	PostIt(text, key)
+	PostIt(text, key, LocationID)
 
 }
 
 //PostIt is a function for posting to SQL
-func PostIt(text string, key string) {
+func PostIt(text string, key string, LocationID string) {
 	//log.Println("95")
 	listposts := []ListPosts{}
-	sql := `exec crm.dbo.import_seven_shifts_users $1, $2`
+	sql := `exec crm.dbo.import_seven_shifts_users $1, $2, $3`
 
-	err := DB().Select(&listposts, sql, text, key)
+	err := db.MyDB().Select(&listposts, sql, text, key, LocationID)
 	if err != nil {
 		log.Println(err)
 	}
-}
-
-//DB : DB is a function that connects to SQL server.
-func DB() *sqlx.DB {
-	serv := os.Getenv("DB_SERVER")
-	user := os.Getenv("DB_USER")
-	pass := os.Getenv("DB_PASS")
-	database := os.Getenv("DB_DATABASE")
-
-	db, err := sqlx.Connect("mssql", fmt.Sprintf(`server=%s;user id=%s;password=%s;database=%s;log1;encrypt=disable`, serv, user, pass, database))
-
-	if err != nil {
-		log.Println(err)
-	}
-	return db
 }

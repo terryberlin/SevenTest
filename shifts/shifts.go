@@ -85,7 +85,7 @@ func UserLists() {
 func ContactAPI(UserID string, key string) {
 	//log.Println("66")
 	start := time.Now().AddDate(0, 0, -1).Format("2006-01-02")
-	log.Println("Getting shift details for User:", UserID, start)
+	log.Println("Getting SHIFTS for User:", UserID, start)
 
 	url := fmt.Sprintf("https://api.7shifts.com/v1/shifts/?start=%s&user_id=%s", start, UserID)
 

@@ -81,7 +81,7 @@ func LocationLists() {
 //ContactAPI is a function that contacts the weather API.
 func ContactAPI(LocationID string, key string) {
 
-	log.Println("Getting details for Location:", LocationID)
+	log.Println("Getting details for LOCATION:", LocationID)
 
 	url := "https://api.7shifts.com/v1/locations"
 
