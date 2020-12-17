@@ -10,10 +10,10 @@ import (
 )
 
 func main() {
-	doLocations := false
-	doUsers := false
-	doShifts := false
-	doTimePunchSync := true
+	doLocations := true
+	doUsers := true
+	doShifts := true
+	doTimePunchSync := false
 
 	if doLocations {
 		log.Println("Call LOCATIONS package")

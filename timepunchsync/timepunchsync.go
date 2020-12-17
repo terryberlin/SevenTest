@@ -131,12 +131,19 @@ func ContactAPI(PunchJSON string, key string, hoursID string, curl string, TimeP
 
 //PostToSQL is a function for posting to SQL
 func PostToSQL(text string, key string, hoursID string, ClockedIn string, ClockedOut string) {
-	log.Println(text, hoursID)
-	listposts := []ListPosts{}
-	sql := `exec crm.dbo.import_seven_shifts_punch_map $1, $2, $3, $4, $5`
+	//log.Println("Posting", text, hoursID, ClockedIn, ClockedOut)
 
-	err := db.MyDB().Select(&listposts, sql, text, key, hoursID, ClockedIn, ClockedOut)
-	if err != nil {
-		log.Println(err)
+	//try adding error detection when parsing JSON
+	//try splitting post and delete into separate procedures
+	//try collecting iime punch data
+
+	listposts := []ListPosts{}
+	sqlQ := `exec crm.dbo.import_seven_shifts_punch_map $1, $2, $3, $4, $5`
+
+	errQ := db.MyDB().Select(&listposts, sqlQ, text, key, hoursID, ClockedIn, ClockedOut)
+	if errQ != nil {
+		log.Println(errQ)
+	} else {
+		log.Println(`exec crm.dbo.import_seven_shifts_punch_map '` + text + `', '5', ` + hoursID + `, '` + ClockedIn + `', '` + ClockedOut + `'`)
 	}
 }
