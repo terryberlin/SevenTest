@@ -5,15 +5,17 @@ import (
 
 	"github.com/quikserve/SevenTest/locations"
 	"github.com/quikserve/SevenTest/shifts"
+	"github.com/quikserve/SevenTest/timepunches"
 	"github.com/quikserve/SevenTest/timepunchsync"
 	"github.com/quikserve/SevenTest/users"
 )
 
 func main() {
-	doLocations := true
-	doUsers := true
-	doShifts := true
+	doLocations := false
+	doUsers := false
+	doShifts := false
 	doTimePunchSync := false
+	doTimePunches := true
 
 	if doLocations {
 		log.Println("Call LOCATIONS package")
@@ -28,6 +30,11 @@ func main() {
 	if doShifts {
 		log.Println("Call SHIFTS package")
 		shifts.MainShifts()
+	}
+
+	if doTimePunches {
+		log.Println("Call TIMEPUNCHES  package")
+		timepunches.MainTimePunches()
 	}
 
 	if doTimePunchSync {
