@@ -11,19 +11,22 @@ import (
 	"github.com/quikserve/SevenTest/timepunches"
 	"github.com/quikserve/SevenTest/timepunchsync"
 	"github.com/quikserve/SevenTest/users"
+	"github.com/quikserve/SevenTest/userspost"
 )
 
 func main() {
 
-	doCompanies := true
-	doLocations := true
-	doDepartments := true
-	doRoles := true
+	doCompanies := false
+	doLocations := false
+	doDepartments := false
+	doRoles := false
 	doUsers := true
-	doShifts := true
+	doShifts := false
 
 	doTimePunchSync := false
 	doTimePunches := false
+
+	doUsersPost := false
 
 	if doCompanies {
 		log.Println("Call COMPANIES package")
@@ -63,5 +66,10 @@ func main() {
 	if doTimePunchSync {
 		log.Println("Call TIME PUNCH SYNC  package")
 		timepunchsync.MainTimePunchSync()
+	}
+
+	if doUsersPost {
+		log.Println("Call POST USERS  package")
+		userspost.MainUsersPost()
 	}
 }
