@@ -1,4 +1,4 @@
-package roles
+package departments
 
 import (
 	"fmt"
@@ -23,8 +23,8 @@ type (
 	}
 )
 
-//MainRoles is a function
-func MainRoles() {
+//MainDepartments is a function
+func MainDepartments() {
 	LocationLists()
 }
 
@@ -76,14 +76,14 @@ func LocationLists() {
 //ContactAPI is a function that contacts the weather API.
 func ContactAPI(LocationID string, key string) {
 
-	log.Println("Getting ROLES for Location:", LocationID)
+	log.Println("Getting DEPARTMENTS for Location:", LocationID)
 
 	//curl https://api.7shifts.com/v1/locations \-u f:
-	url := fmt.Sprintf("https://api.7shifts.com/v1/roles/?location_id=%s", LocationID)
+	url := fmt.Sprintf("https://api.7shifts.com/v1/departments/?location_id=%s", LocationID)
 
 	c := exec.Command("curl", "-u", key, url)
 	c.Stdout = os.Stdout
-	outfile, err1 := os.Create("./roles.json")
+	outfile, err1 := os.Create("./departments.json")
 	if err1 != nil {
 		fmt.Println("Error:", err1)
 	}
@@ -96,7 +96,7 @@ func ContactAPI(LocationID string, key string) {
 		fmt.Println("Error:", err)
 	}
 
-	content, err := ioutil.ReadFile("./roles.json")
+	content, err := ioutil.ReadFile("./departments.json")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -111,7 +111,7 @@ func ContactAPI(LocationID string, key string) {
 func PostIt(text string, key string, LocationID string) {
 	//log.Println("95")
 	listposts := []ListPosts{}
-	sql := `exec crm.dbo.import_seven_shifts_roles $1`
+	sql := `exec crm.dbo.import_seven_shifts_departments $1`
 
 	err := db.MyDB().Select(&listposts, sql, text)
 	if err != nil {

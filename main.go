@@ -3,7 +3,10 @@ package main
 import (
 	"log"
 
+	"github.com/quikserve/SevenTest/companies"
+	"github.com/quikserve/SevenTest/departments"
 	"github.com/quikserve/SevenTest/locations"
+	"github.com/quikserve/SevenTest/roles"
 	"github.com/quikserve/SevenTest/shifts"
 	"github.com/quikserve/SevenTest/timepunches"
 	"github.com/quikserve/SevenTest/timepunchsync"
@@ -11,15 +14,35 @@ import (
 )
 
 func main() {
-	doLocations := false
-	doUsers := false
-	doShifts := false
+
+	doCompanies := true
+	doLocations := true
+	doDepartments := true
+	doRoles := true
+	doUsers := true
+	doShifts := true
+
 	doTimePunchSync := false
-	doTimePunches := true
+	doTimePunches := false
+
+	if doCompanies {
+		log.Println("Call COMPANIES package")
+		companies.MainCompanies()
+	}
 
 	if doLocations {
 		log.Println("Call LOCATIONS package")
 		locations.MainLocations()
+	}
+
+	if doDepartments {
+		log.Println("Call DEPARTMENTS package")
+		departments.MainDepartments()
+	}
+
+	if doRoles {
+		log.Println("Call ROLES package")
+		roles.MainRoles()
 	}
 
 	if doUsers {
