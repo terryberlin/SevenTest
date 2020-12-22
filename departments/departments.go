@@ -25,11 +25,11 @@ type (
 
 //MainDepartments is a function
 func MainDepartments() {
-	LocationLists()
-}
+	// 	LocationLists()
+	// }
 
-//LocationLists is a function that returns a list of cities
-func LocationLists() {
+	// //LocationLists is a function that returns a list of cities
+	// func LocationLists() {
 
 	var status string
 	var key string

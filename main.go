@@ -16,11 +16,11 @@ import (
 
 func main() {
 
-	doCompanies := false
-	doLocations := false
-	doDepartments := false
+	doCompanies := true
+	doLocations := true
+	doDepartments := true
 	doRoles := false
-	doUsers := true
+	doUsers := false
 	doShifts := false
 
 	doTimePunchSync := false

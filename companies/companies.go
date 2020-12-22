@@ -11,8 +11,8 @@ import (
 )
 
 type (
-	//LocationList is a structure of cities from SQL query.
-	LocationList struct {
+	//CompanyList is a structure of cities from SQL query.
+	CompanyList struct {
 		LocationID *string `db:"LocationID" json:"LocationID"`
 		APIKey     *string `db:"APIKey" json:"APIKey"`
 	}
@@ -25,11 +25,6 @@ type (
 
 //MainCompanies is a function
 func MainCompanies() {
-	LocationLists()
-}
-
-//LocationLists is a function that returns a list of cities
-func LocationLists() {
 
 	var status string
 	var key string
@@ -49,16 +44,16 @@ func LocationLists() {
         from quikserve.dbo.seven_shifts_locations s
 	`
 
-	LocationLists := []LocationList{}
-	err := db.MyDB().Select(&LocationLists, sql2)
+	CompanyLists := []CompanyList{}
+	err := db.MyDB().Select(&CompanyLists, sql2)
 	if err != nil {
 		log.Println(err)
 	}
 
 	var LocationID string
-	for i := range LocationLists {
-		LocationID = fmt.Sprint(*LocationLists[i].LocationID)
-		key = fmt.Sprint(*LocationLists[i].APIKey)
+	for i := range CompanyLists {
+		LocationID = fmt.Sprint(*CompanyLists[i].LocationID)
+		key = fmt.Sprint(*CompanyLists[i].APIKey)
 		ContactAPI(LocationID, key)
 	}
 
@@ -78,7 +73,6 @@ func ContactAPI(LocationID string, key string) {
 
 	log.Println("Getting COMPANIES for Location:")
 
-	//curl https://api.7shifts.com/v1/locations \-u f:
 	url := fmt.Sprintf("https://api.7shifts.com/v1/companies")
 
 	c := exec.Command("curl", "-u", key, url)
