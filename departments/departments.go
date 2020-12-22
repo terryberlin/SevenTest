@@ -11,8 +11,8 @@ import (
 )
 
 type (
-	//LocationList is a structure of cities from SQL query.
-	LocationList struct {
+	//DepartmentList is a structure of cities from SQL query.
+	DepartmentList struct {
 		LocationID *string `db:"LocationID" json:"LocationID"`
 		APIKey     *string `db:"APIKey" json:"APIKey"`
 	}
@@ -25,11 +25,6 @@ type (
 
 //MainDepartments is a function
 func MainDepartments() {
-	// 	LocationLists()
-	// }
-
-	// //LocationLists is a function that returns a list of cities
-	// func LocationLists() {
 
 	var status string
 	var key string
@@ -49,16 +44,16 @@ func MainDepartments() {
         from quikserve.dbo.seven_shifts_locations s
 	`
 
-	LocationLists := []LocationList{}
-	err := db.MyDB().Select(&LocationLists, sql2)
+	DepartmentLists := []DepartmentList{}
+	err := db.MyDB().Select(&DepartmentLists, sql2)
 	if err != nil {
 		log.Println(err)
 	}
 
 	var LocationID string
-	for i := range LocationLists {
-		LocationID = fmt.Sprint(*LocationLists[i].LocationID)
-		key = fmt.Sprint(*LocationLists[i].APIKey)
+	for i := range DepartmentLists {
+		LocationID = fmt.Sprint(*DepartmentLists[i].LocationID)
+		key = fmt.Sprint(*DepartmentLists[i].APIKey)
 		ContactAPI(LocationID, key)
 	}
 
@@ -78,7 +73,6 @@ func ContactAPI(LocationID string, key string) {
 
 	log.Println("Getting DEPARTMENTS for Location:", LocationID)
 
-	//curl https://api.7shifts.com/v1/locations \-u f:
 	url := fmt.Sprintf("https://api.7shifts.com/v1/departments/?location_id=%s", LocationID)
 
 	c := exec.Command("curl", "-u", key, url)
@@ -109,7 +103,7 @@ func ContactAPI(LocationID string, key string) {
 
 //PostIt is a function for posting to SQL
 func PostIt(text string, key string, LocationID string) {
-	//log.Println("95")
+
 	listposts := []ListPosts{}
 	sql := `exec crm.dbo.import_seven_shifts_departments $1`
 

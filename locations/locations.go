@@ -5,12 +5,9 @@ import (
 	"os"
 	"os/exec"
 
-	//"database/sql"
 	"fmt"
 	"log"
 
-	// _ "github.com/denisenkom/go-mssqldb"
-	// _ "github.com/go-sql-driver/mysql"
 	"github.com/quikserve/SevenTest/db"
 )
 
@@ -29,11 +26,6 @@ type (
 
 //MainLocations is a function to import locations
 func MainLocations() {
-	// 	LocationLists()
-	// }
-
-	// //LocationLists is a function that returns a list of cities
-	// func LocationLists() {
 
 	var status string
 	var key string
@@ -52,7 +44,6 @@ func MainLocations() {
         select location_id as LocationID, api_key as APIKey
         from quikserve.dbo.seven_shifts_locations s
 	`
-	//sql1 = "select 1 as LocationID, 1 as APIKey"
 
 	LocationLists := []LocationList{}
 	err2 := db.MyDB().Select(&LocationLists, sql2)
@@ -113,7 +104,7 @@ func ContactAPI(LocationID string, key string) {
 
 //PostIt is a function for posting to SQL
 func PostIt(text string, key string) {
-	//log.Println("95")
+
 	listposts := []ListPosts{}
 	sql := `exec crm.dbo.import_seven_shifts_locations $1, $2`
 
@@ -122,18 +113,3 @@ func PostIt(text string, key string) {
 		log.Println(err)
 	}
 }
-
-// //DB : DB is a function that connects to SQL server.
-// func DB() *sqlx.DB {
-// 	serv := os.Getenv("DB_SERVER")
-// 	user := os.Getenv("DB_USER")
-// 	pass := os.Getenv("DB_PASS")
-// 	database := os.Getenv("DB_DATABASE")
-
-// 	db, err := sqlx.Connect("mssql", fmt.Sprintf(`server=%s;user id=%s;password=%s;database=%s;log1;encrypt=disable`, serv, user, pass, database))
-
-// 	if err != nil {
-// 		log.Println(err)
-// 	}
-// 	return db
-// }
