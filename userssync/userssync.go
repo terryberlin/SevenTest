@@ -1,4 +1,4 @@
-package userspost
+package userssync
 
 import (
 
@@ -29,13 +29,12 @@ type (
 	}
 )
 
-//MainUsersPost is a func.
-func MainUsersPost() {
+//MainUsersSync is a func.
+func MainUsersSync() {
 	fmt.Println("Hello")
 
 	var status string
 
-	var store string
 	var ID string
 	var UserJSON string
 	var key string
@@ -43,7 +42,8 @@ func MainUsersPost() {
 	var curl string
 	var userID string
 
-	store = "9367"
+	//var store string
+	//store = "9367"
 
 	//toggle keys
 	status = "reveal"
@@ -57,9 +57,10 @@ func MainUsersPost() {
 
 	//cache punches
 	LocationLists := []LocationList{}
-	sql2 := `exec crm.dbo.seven_shifts_cache_users $1`
+	//sql2 := `exec crm.dbo.seven_shifts_cache_users $1`
+	sql2 := `exec crm.dbo.seven_shifts_cache_users`
 
-	err2 := db.MyDB().Select(&LocationLists, sql2, store)
+	err2 := db.MyDB().Select(&LocationLists, sql2)
 	if err2 != nil {
 		log.Println(err2)
 	}

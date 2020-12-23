@@ -45,11 +45,12 @@ func MainTimePunches() {
 	}
 
 	sql2 := `
-		select user_id as UserID, api_key as APIKey
-		from quikserve.dbo.seven_shifts_users s
-		where api_key is not null
-		--and s.user_id in (1926968,2510397)
-		order by user_id
+		select [user_id] as UserID, s.api_key as APIKey
+		from quikserve.dbo.seven_shifts_users s 
+		join quikserve.dbo.seven_shifts_locations l on l.store_id=s.qs_store_id and l.api_key=s.api_key
+		where s.api_key is not null and l.active in (1)
+		--and s.[user_id]=2513633
+		order by [user_id]
     `
 
 	UserLists := []UserList{}

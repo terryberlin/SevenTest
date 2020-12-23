@@ -13,7 +13,7 @@ import (
 	"github.com/quikserve/SevenTest/timepunchsyncintraday"
 	"github.com/quikserve/SevenTest/timepunchsyncintradayreset"
 	"github.com/quikserve/SevenTest/users"
-	"github.com/quikserve/SevenTest/userspost"
+	"github.com/quikserve/SevenTest/userssync"
 )
 
 func main() {
@@ -22,15 +22,15 @@ func main() {
 	doLocations := false
 	doDepartments := false
 	doRoles := false
-	doUsers := false
+	doUsers := true
 	doShifts := false
+	doTimePunches := true
 
+	doUsersSync := false
 	doTimePunchSync := false
 	doTimePunchSyncIntraday := false
-	doTimePunchSyncIntradayReset := true
-	doTimePunches := false
 
-	doUsersPost := false
+	doTimePunchSyncIntradayReset := false
 
 	if doCompanies {
 		log.Println("Call COMPANIES package")
@@ -82,8 +82,8 @@ func main() {
 		timepunchsyncintradayreset.MainTimePunchSyncIntradayReset()
 	}
 
-	if doUsersPost {
-		log.Println("Call POST USERS  package")
-		userspost.MainUsersPost()
+	if doUsersSync {
+		log.Println("Call USERS SYNC  package")
+		userssync.MainUsersSync()
 	}
 }

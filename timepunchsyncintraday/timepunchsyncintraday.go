@@ -79,9 +79,6 @@ func MainTimePunchSyncIntraday() {
 		//post results to 7Shifts
 		log.Println("pushing to 7shifts API", PunchID, hoursID, curl)
 		ContactAPI(PunchJSON, key, hoursID, curl, TimePunchID, ClockedIn, ClockedOut)
-
-		//clear from SQL cache table
-		//log.Println("deleting from SQL cache table", PunchID)
 	}
 
 	//toggle keys
@@ -132,11 +129,6 @@ func ContactAPI(PunchJSON string, key string, hoursID string, curl string, TimeP
 
 //PostToSQL is a function for posting to SQL
 func PostToSQL(text string, key string, hoursID string, ClockedIn string, ClockedOut string) {
-	//log.Println("Posting", text, hoursID, ClockedIn, ClockedOut)
-
-	//try adding error detection when parsing JSON
-	//try splitting post and delete into separate procedures
-	//try collecting iime punch data
 
 	listposts := []ListPosts{}
 	sqlQ := `exec crm.dbo.import_seven_shifts_punch_map $1, $2, $3, $4, $5`

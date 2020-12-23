@@ -1,7 +1,13 @@
 package timepunchsyncintradayreset
 
 import (
+	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"os/exec"
+
+	"github.com/quikserve/SevenTest/db"
 )
 
 type (
@@ -25,8 +31,120 @@ type (
 
 //MainTimePunchSyncIntradayReset is a func
 func MainTimePunchSyncIntradayReset() {
-	log.Println("match intraday with new eod and update hour_id in _punch_map table")
-	log.Println("for remaining records spin through and delete from 7Shifts")
-	log.Println("then delete from _punch_map table")
-	log.Println("rerun eod sync")
+
+	log.Println("hello")
+	// log.Println("match intraday with new eod and update hour_id in _punch_map table")
+	// log.Println("for remaining records spin through and delete from 7Shifts")
+	// log.Println("then delete from _punch_map table")
+	// log.Println("run eod timepunch")
+
+	var status string
+	var PunchID string
+	var PunchJSON string
+	var key string
+	var hoursID string
+	var curl string
+	var TimePunchID string
+	var ClockedIn string
+	var ClockedOut string
+
+	//toggle keys
+	status = "reveal"
+	listposts := []ListPosts{}
+	sql1 := `exec crm.dbo.key_status $1`
+
+	err1 := db.MyDB().Select(&listposts, sql1, status)
+	if err1 != nil {
+		log.Println(err1)
+	}
+
+	//queryDate := time.Now().Format("2006-01-02")
+
+	//cache punches
+	TimePunchLists := []TimePunchList{}
+	sql2 := `exec crm.dbo.seven_shifts_timepunchintrady_reset`
+
+	err2 := db.MyDB().Select(&TimePunchLists, sql2)
+	if err2 != nil {
+		log.Println(err2)
+	}
+
+	for i := range TimePunchLists {
+		PunchID = fmt.Sprint(*TimePunchLists[i].PunchID)
+		PunchJSON = fmt.Sprint(*TimePunchLists[i].PunchJSON)
+		key = fmt.Sprint(*TimePunchLists[i].APIKey)
+		hoursID = fmt.Sprint(*TimePunchLists[i].EmployeeHoursID)
+		curl = fmt.Sprint(*TimePunchLists[i].Curl)
+		TimePunchID = fmt.Sprint(*TimePunchLists[i].TimePunchID)
+		ClockedIn = fmt.Sprint(*TimePunchLists[i].ClockedIn)
+		ClockedOut = fmt.Sprint(*TimePunchLists[i].ClockedOut)
+
+		//post results to 7Shifts
+		log.Println("inactivating in 7shifts API", PunchID, hoursID, curl)
+		ContactAPI(PunchJSON, key, hoursID, curl, TimePunchID, ClockedIn, ClockedOut)
+	}
+
+	//toggle keys
+	status = "disguise"
+	listposts = []ListPosts{}
+	sql3 := `exec crm.dbo.key_status $1`
+
+	err3 := db.MyDB().Select(&listposts, sql3, status)
+	if err3 != nil {
+		log.Println(err3)
+	}
+}
+
+//ContactAPI is a function that contacts the weather API.
+func ContactAPI(PunchJSON string, key string, hoursID string, curl string, TimePunchID string, ClockedIn string, ClockedOut string) {
+
+	url := fmt.Sprintf("https://api.7shifts.com/v1/time_punches")
+
+	if curl == "PUT" {
+		url = fmt.Sprintf("https://api.7shifts.com/v1/time_punches/%s", TimePunchID)
+	}
+
+	if curl == "DELETE" {
+		url = fmt.Sprintf("https://api.7shifts.com/v1/time_punches/%s", TimePunchID)
+	}
+
+	c := exec.Command("curl", "-X", curl, "-u", key, "-d", PunchJSON, url)
+	c.Stdout = os.Stdout
+	outfile, err1 := os.Create("./punch.json")
+	if err1 != nil {
+		fmt.Println("Error:", err1)
+	}
+
+	c.Stdout = outfile
+	//c.Stderr = os.Stderr
+
+	err := c.Run()
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	content, err := ioutil.ReadFile("./punch.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	text := string(content)
+
+	PostToSQL(text, key, hoursID, ClockedIn, ClockedOut)
+
+}
+
+//PostToSQL is a function for posting to SQL
+func PostToSQL(text string, key string, hoursID string, ClockedIn string, ClockedOut string) {
+	log.Println("Posting", text, hoursID, ClockedIn, ClockedOut, key)
+
+	// listposts := []ListPosts{}
+	// sqlQ := `exec crm.dbo.import_seven_shifts_punch_map $1, $2, $3, $4, $5`
+
+	// errQ := db.MyDB().Select(&listposts, sqlQ, text, key, hoursID, ClockedIn, ClockedOut)
+	// if errQ != nil {
+	// 	log.Println(errQ)
+	// } else {
+	// 	log.Println(`exec crm.dbo.import_seven_shifts_punch_map '` + text + `', '5', ` + hoursID + `, '` + ClockedIn + `', '` + ClockedOut + `'`)
+	// }
 }

@@ -41,7 +41,8 @@ func MainCompanies() {
 
 	sql2 := `
         select distinct api_key as LocationID, api_key as APIKey
-        from quikserve.dbo.seven_shifts_locations s
+		from quikserve.dbo.seven_shifts_locations s
+		where s.active in (1)
 	`
 
 	CompanyLists := []CompanyList{}
