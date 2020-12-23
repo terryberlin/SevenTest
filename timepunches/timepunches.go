@@ -10,9 +10,9 @@ import (
 	"fmt"
 	"log"
 
-	_ "github.com/denisenkom/go-mssqldb"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
+	// _ "github.com/denisenkom/go-mssqldb"
+	// _ "github.com/go-sql-driver/mysql"
+	"github.com/quikserve/SevenTest/db"
 )
 
 type (
@@ -30,11 +30,6 @@ type (
 
 //MainTimePunches is a func
 func MainTimePunches() {
-	UserLists()
-}
-
-//UserLists is a function that returns a list of cities
-func UserLists() {
 
 	var status string
 	var key string
@@ -44,7 +39,7 @@ func UserLists() {
 	listposts := []ListPosts{}
 	sql1 := `exec crm.dbo.key_status $1`
 
-	err1 := DB().Select(&listposts, sql1, status)
+	err1 := db.MyDB().Select(&listposts, sql1, status)
 	if err1 != nil {
 		log.Println(err1)
 	}
@@ -58,7 +53,7 @@ func UserLists() {
     `
 
 	UserLists := []UserList{}
-	err := DB().Select(&UserLists, sql2)
+	err := db.MyDB().Select(&UserLists, sql2)
 	if err != nil {
 		log.Println(err)
 	}
@@ -76,7 +71,7 @@ func UserLists() {
 	listposts = []ListPosts{}
 	sql3 := `exec crm.dbo.key_status $1`
 
-	err3 := DB().Select(&listposts, sql3, status)
+	err3 := db.MyDB().Select(&listposts, sql3, status)
 	if err3 != nil {
 		log.Println(err3)
 	}
@@ -84,7 +79,7 @@ func UserLists() {
 
 //ContactAPI is a function that contacts the weather API.
 func ContactAPI(UserID string, key string) {
-	//log.Println("66")
+
 	start := time.Now().AddDate(0, 0, -3).Format("2006-01-02")
 	log.Println("Getting TIMEPUNCHES for User:", UserID, start)
 
@@ -122,27 +117,27 @@ func PostIt(text string, key string) {
 	listposts := []ListPosts{}
 	sql := `exec crm.dbo.import_seven_shifts_timepunches $1`
 
-	err := DB().Select(&listposts, sql, text)
+	err := db.MyDB().Select(&listposts, sql, text)
 	if err != nil {
 		log.Println(err)
 	}
 
 }
 
-//DB : DB is a function that connects to SQL server.
-func DB() *sqlx.DB {
+// //DB : DB is a function that connects to SQL server.
+// func DB() *sqlx.DB {
 
-	serv := os.Getenv("DB_SERVER")
-	user := os.Getenv("DB_USER")
-	pass := os.Getenv("DB_PASS")
-	database := os.Getenv("DB_DATABASE")
+// 	serv := os.Getenv("DB_SERVER")
+// 	user := os.Getenv("DB_USER")
+// 	pass := os.Getenv("DB_PASS")
+// 	database := os.Getenv("DB_DATABASE")
 
-	db, err := sqlx.Connect("mssql", fmt.Sprintf(`server=%s;user id=%s;password=%s;database=%s;log1;encrypt=disable`, serv, user, pass, database))
+// 	db, err := sqlx.Connect("mssql", fmt.Sprintf(`server=%s;user id=%s;password=%s;database=%s;log1;encrypt=disable`, serv, user, pass, database))
 
-	if err != nil {
-		log.Println(err)
-	}
+// 	if err != nil {
+// 		log.Println(err)
+// 	}
 
-	return db
+// 	return db
 
-}
+// }

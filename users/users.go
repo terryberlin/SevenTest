@@ -25,11 +25,6 @@ type (
 
 //MainUsers is a function
 func MainUsers() {
-	LocationLists()
-}
-
-//LocationLists is a function that returns a list of cities
-func LocationLists() {
 
 	var status string
 	var key string
@@ -78,7 +73,6 @@ func ContactAPI(LocationID string, key string) {
 
 	log.Println("Getting USERS for Location:", LocationID)
 
-	//curl https://api.7shifts.com/v1/locations \-u f:
 	url := fmt.Sprintf("https://api.7shifts.com/v1/users/?location_id=%s", LocationID)
 
 	c := exec.Command("curl", "-u", key, url)
@@ -109,7 +103,7 @@ func ContactAPI(LocationID string, key string) {
 
 //PostIt is a function for posting to SQL
 func PostIt(text string, key string, LocationID string) {
-	//log.Println("95")
+
 	listposts := []ListPosts{}
 	sql := `exec crm.dbo.import_seven_shifts_users $1, $2, $3`
 

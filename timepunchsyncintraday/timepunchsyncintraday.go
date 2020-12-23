@@ -1,4 +1,4 @@
-package timepunchsync
+package timepunchsyncintraday
 
 import (
 
@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"time"
 
 	"github.com/quikserve/SevenTest/db"
 )
@@ -31,10 +32,8 @@ type (
 	}
 )
 
-//MainTimePunchSync is a func
-func MainTimePunchSync() {
-
-	log.Println("hello")
+//MainTimePunchSyncIntraday is a func
+func MainTimePunchSyncIntraday() {
 
 	var status string
 	var PunchID string
@@ -56,11 +55,13 @@ func MainTimePunchSync() {
 		log.Println(err1)
 	}
 
+	queryDate := time.Now().Format("2006-01-02")
+	//log.Println(queryDate)
 	//cache punches
 	TimePunchLists := []TimePunchList{}
-	sql2 := `exec crm.dbo.seven_shifts_cache_time_punches`
+	sql2 := `exec crm.dbo.seven_shifts_cache_time_punches $1, $2`
 
-	err2 := db.MyDB().Select(&TimePunchLists, sql2)
+	err2 := db.MyDB().Select(&TimePunchLists, sql2, queryDate, queryDate)
 	if err2 != nil {
 		log.Println(err2)
 	}

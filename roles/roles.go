@@ -11,8 +11,8 @@ import (
 )
 
 type (
-	//LocationList is a structure of cities from SQL query.
-	LocationList struct {
+	//RoletList is a structure of cities from SQL query.
+	RoletList struct {
 		LocationID *string `db:"LocationID" json:"LocationID"`
 		APIKey     *string `db:"APIKey" json:"APIKey"`
 	}
@@ -25,11 +25,6 @@ type (
 
 //MainRoles is a function
 func MainRoles() {
-	LocationLists()
-}
-
-//LocationLists is a function that returns a list of cities
-func LocationLists() {
 
 	var status string
 	var key string
@@ -49,16 +44,16 @@ func LocationLists() {
         from quikserve.dbo.seven_shifts_locations s
 	`
 
-	LocationLists := []LocationList{}
-	err := db.MyDB().Select(&LocationLists, sql2)
+	RoletLists := []RoletList{}
+	err := db.MyDB().Select(&RoletLists, sql2)
 	if err != nil {
 		log.Println(err)
 	}
 
 	var LocationID string
-	for i := range LocationLists {
-		LocationID = fmt.Sprint(*LocationLists[i].LocationID)
-		key = fmt.Sprint(*LocationLists[i].APIKey)
+	for i := range RoletLists {
+		LocationID = fmt.Sprint(*RoletLists[i].LocationID)
+		key = fmt.Sprint(*RoletLists[i].APIKey)
 		ContactAPI(LocationID, key)
 	}
 

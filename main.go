@@ -10,20 +10,24 @@ import (
 	"github.com/quikserve/SevenTest/shifts"
 	"github.com/quikserve/SevenTest/timepunches"
 	"github.com/quikserve/SevenTest/timepunchsync"
+	"github.com/quikserve/SevenTest/timepunchsyncintraday"
+	"github.com/quikserve/SevenTest/timepunchsyncintradayreset"
 	"github.com/quikserve/SevenTest/users"
 	"github.com/quikserve/SevenTest/userspost"
 )
 
 func main() {
 
-	doCompanies := true
-	doLocations := true
-	doDepartments := true
+	doCompanies := false
+	doLocations := false
+	doDepartments := false
 	doRoles := false
 	doUsers := false
 	doShifts := false
 
 	doTimePunchSync := false
+	doTimePunchSyncIntraday := false
+	doTimePunchSyncIntradayReset := true
 	doTimePunches := false
 
 	doUsersPost := false
@@ -66,6 +70,16 @@ func main() {
 	if doTimePunchSync {
 		log.Println("Call TIME PUNCH SYNC  package")
 		timepunchsync.MainTimePunchSync()
+	}
+
+	if doTimePunchSyncIntraday {
+		log.Println("Call TIME PUNCH SYNC INTRADAY  package")
+		timepunchsyncintraday.MainTimePunchSyncIntraday()
+	}
+
+	if doTimePunchSyncIntradayReset {
+		log.Println("Call TIME PUNCH SYNC INTRADAY RESET  package")
+		timepunchsyncintradayreset.MainTimePunchSyncIntradayReset()
 	}
 
 	if doUsersPost {
