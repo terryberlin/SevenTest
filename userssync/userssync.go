@@ -1,8 +1,6 @@
 package userssync
 
 import (
-
-	//"database/sql"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -31,9 +29,6 @@ type (
 
 //MainUsersSync is a func.
 func MainUsersSync() {
-	fmt.Println("Hello")
-
-	var status string
 
 	var ID string
 	var UserJSON string
@@ -44,16 +39,6 @@ func MainUsersSync() {
 
 	//var store string
 	//store = "9367"
-
-	//toggle keys
-	status = "reveal"
-	listposts := []ListPosts{}
-	sql1 := `exec crm.dbo.key_status $1`
-
-	err1 := db.MyDB().Select(&listposts, sql1, status)
-	if err1 != nil {
-		log.Println(err1)
-	}
 
 	//cache punches
 	LocationLists := []LocationList{}
@@ -81,15 +66,6 @@ func MainUsersSync() {
 		//log.Println("deleting from SQL cache table", ID)
 	}
 
-	//toggle keys
-	status = "disguise"
-	listposts = []ListPosts{}
-	sql3 := `exec crm.dbo.key_status $1`
-
-	err3 := db.MyDB().Select(&listposts, sql3, status)
-	if err3 != nil {
-		log.Println(err3)
-	}
 }
 
 //ContactAPI is a function that contacts the weather API.

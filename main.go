@@ -5,6 +5,7 @@ import (
 
 	"github.com/quikserve/SevenTest/companies"
 	"github.com/quikserve/SevenTest/departments"
+	"github.com/quikserve/SevenTest/keys"
 	"github.com/quikserve/SevenTest/locations"
 	"github.com/quikserve/SevenTest/roles"
 	"github.com/quikserve/SevenTest/shifts"
@@ -31,6 +32,8 @@ func main() {
 	doTimePunchSyncIntraday := true
 
 	doTimePunchSyncIntradayReset := false
+
+	keys.MainKeys("reveal")
 
 	if doCompanies {
 		log.Println("Call COMPANIES package")
@@ -86,4 +89,7 @@ func main() {
 		log.Println("Call USERS SYNC  package")
 		userssync.MainUsersSync()
 	}
+
+	keys.MainKeys("disguise")
+
 }
