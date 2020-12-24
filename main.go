@@ -22,13 +22,13 @@ func main() {
 	doLocations := false
 	doDepartments := false
 	doRoles := false
-	doUsers := true
+	doUsers := false
 	doShifts := false
-	doTimePunches := true
+	doTimePunches := false
 
 	doUsersSync := false
 	doTimePunchSync := false
-	doTimePunchSyncIntraday := false
+	doTimePunchSyncIntraday := true
 
 	doTimePunchSyncIntradayReset := false
 
