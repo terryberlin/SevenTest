@@ -19,6 +19,90 @@ import (
 
 func main() {
 
+	//flags for batch runs
+	doEndOfDay := true
+	doIntradayReset := false
+	doIntradaySync := false
+	//flags for batch runs
+
+	keys.MainKeys("reveal")
+
+	if doEndOfDay {
+
+		log.Println("Call COMPANIES package")
+		companies.MainCompanies()
+
+		log.Println("Call LOCATIONS package")
+		locations.MainLocations()
+
+		log.Println("Call DEPARTMENTS package")
+		departments.MainDepartments()
+
+		log.Println("Call ROLES package")
+		roles.MainRoles()
+
+		log.Println("Call USERS package")
+		users.MainUsers()
+
+		log.Println("Call USERS SYNC  package")
+		userssync.MainUsersSync()
+
+		log.Println("Call USERS package")
+		users.MainUsers()
+
+	}
+
+	//run once per day before syncing current intraday
+	if doIntradayReset {
+
+		//log.Println("Call USERS package")
+		//users.MainUsers()
+
+		//log.Println("Call USERS SYNC  package")
+		//userssync.MainUsersSync()
+
+		//log.Println("Call USERS package")
+		//users.MainUsers()
+
+		//log.Println("Call TIMEPUNCHES  package")
+		//timepunches.MainTimePunches()
+
+		log.Println("Call TIME PUNCH SYNC INTRADAY RESET  package")
+		timepunchsyncintradayreset.MainTimePunchSyncIntradayReset()
+
+		log.Println("Call TIME PUNCH SYNC  package")
+		timepunchsync.MainTimePunchSync()
+
+		log.Println("Call TIMEPUNCHES  package")
+		timepunches.MainTimePunches()
+	}
+
+	//run throughout the day
+	if doIntradaySync {
+
+		//log.Println("Call USERS package")
+		//users.MainUsers()
+
+		//log.Println("Call USERS SYNC  package")
+		//userssync.MainUsersSync()
+
+		//log.Println("Call USERS package")
+		//users.MainUsers()
+
+		//log.Println("Call TIMEPUNCHES  package")
+		//timepunches.MainTimePunches()
+
+		log.Println("Call TIME PUNCH SYNC INTRADAY  package")
+		timepunchsyncintraday.MainTimePunchSyncIntraday()
+
+		// log.Println("Call TIME PUNCH SYNC  package")
+		// timepunchsync.MainTimePunchSync()
+
+		// log.Println("Call TIMEPUNCHES  package")
+		// timepunches.MainTimePunches()
+	}
+
+	//flags for testing and one off runs
 	doCompanies := false
 	doLocations := false
 	doDepartments := false
@@ -29,11 +113,10 @@ func main() {
 
 	doUsersSync := false
 	doTimePunchSync := false
-	doTimePunchSyncIntraday := true
+	doTimePunchSyncIntraday := false
 
 	doTimePunchSyncIntradayReset := false
-
-	keys.MainKeys("reveal")
+	//flags for testing and one off runs
 
 	if doCompanies {
 		log.Println("Call COMPANIES package")
