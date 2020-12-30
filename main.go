@@ -22,7 +22,7 @@ func main() {
 	//flags for batch runs
 	doEndOfDay := false
 	doIntradayReset := false
-	doIntradaySync := false
+	doIntradaySync := true
 	//flags for batch runs
 
 	keys.MainKeys("reveal")
@@ -53,16 +53,22 @@ func main() {
 		log.Println("Call TIMEPUNCHES  package")
 		timepunches.MainTimePunches()
 
-		log.Println("Call TIME PUNCH SYNC  package")
-		timepunchsync.MainTimePunchSync()
+		log.Println("Call SHIFTS  package")
+		shifts.MainShifts()
 
-		log.Println("Call TIMEPUNCHES  package")
-		timepunches.MainTimePunches()
+		// log.Println("Call TIME PUNCH SYNC  package")
+		// timepunchsync.MainTimePunchSync()
+
+		// log.Println("Call TIMEPUNCHES  package")
+		// timepunches.MainTimePunches()
 
 	}
 
 	//run once per day before syncing current intraday
 	if doIntradayReset {
+
+		log.Println("Call ROLES package")
+		roles.MainRoles()
 
 		log.Println("Call USERS package")
 		users.MainUsers()
@@ -75,6 +81,9 @@ func main() {
 
 		log.Println("Call TIMEPUNCHES  package")
 		timepunches.MainTimePunches()
+
+		log.Println("Call TIMEPUNCH INTRADAY SYNC  package")
+		timepunchsyncintraday.MainTimePunchSyncIntraday()
 
 		log.Println("Call TIME PUNCH SYNC  package")
 		timepunchsync.MainTimePunchSync()
@@ -92,23 +101,23 @@ func main() {
 	//run throughout the day
 	if doIntradaySync {
 
-		log.Println("Call USERS package")
-		users.MainUsers()
+		// log.Println("Call USERS package")
+		// users.MainUsers()
 
-		log.Println("Call USERS SYNC  package")
-		userssync.MainUsersSync()
+		// log.Println("Call USERS SYNC  package")
+		// userssync.MainUsersSync()
 
-		log.Println("Call USERS package")
-		users.MainUsers()
+		// log.Println("Call USERS package")
+		// users.MainUsers()
 
-		log.Println("Call TIMEPUNCHES  package")
-		timepunches.MainTimePunches()
+		// log.Println("Call TIMEPUNCHES  package")
+		// timepunches.MainTimePunches()
 
 		log.Println("Call TIME PUNCH SYNC INTRADAY  package")
 		timepunchsyncintraday.MainTimePunchSyncIntraday()
 
-		log.Println("Call TIME PUNCH SYNC  package")
-		timepunchsync.MainTimePunchSync()
+		// log.Println("Call TIME PUNCH SYNC  package")
+		// timepunchsync.MainTimePunchSync()
 
 		log.Println("Call TIMEPUNCHES  package")
 		timepunches.MainTimePunches()
@@ -125,7 +134,7 @@ func main() {
 
 	doUsersSync := false
 	doTimePunchSync := false
-	doTimePunchSyncIntraday := true
+	doTimePunchSyncIntraday := false
 
 	doTimePunchSyncIntradayReset := false
 	//flags for testing and one off runs
