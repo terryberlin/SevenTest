@@ -27,18 +27,7 @@ type (
 
 func MainShifts() {
 
-	var status string
 	var key string
-
-	status = "reveal"
-
-	listposts := []ListPosts{}
-	sql1 := `exec crm.dbo.key_status $1`
-
-	err1 := db.MyDB().Select(&listposts, sql1, status)
-	if err1 != nil {
-		log.Println(err1)
-	}
 
 	sql2 := `
         select user_id as UserID, api_key as APIKey
@@ -62,15 +51,6 @@ func MainShifts() {
 		ContactAPI(UserID, key)
 	}
 
-	status = "disguise"
-
-	listposts = []ListPosts{}
-	sql3 := `exec crm.dbo.key_status $1`
-
-	err3 := db.MyDB().Select(&listposts, sql3, status)
-	if err3 != nil {
-		log.Println(err3)
-	}
 }
 
 //ContactAPI is a function that contacts the weather API.

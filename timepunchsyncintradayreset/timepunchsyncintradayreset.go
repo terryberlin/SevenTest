@@ -32,13 +32,11 @@ type (
 //MainTimePunchSyncIntradayReset is a func
 func MainTimePunchSyncIntradayReset() {
 
-	log.Println("hello")
 	// log.Println("match intraday with new eod and update hour_id in _punch_map table")
 	// log.Println("for remaining records spin through and delete from 7Shifts")
 	// log.Println("then delete from _punch_map table")
 	// log.Println("run eod timepunch")
 
-	var status string
 	var PunchID string
 	var PunchJSON string
 	var key string
@@ -47,16 +45,6 @@ func MainTimePunchSyncIntradayReset() {
 	var TimePunchID string
 	var ClockedIn string
 	var ClockedOut string
-
-	//toggle keys
-	status = "reveal"
-	listposts := []ListPosts{}
-	sql1 := `exec crm.dbo.key_status $1`
-
-	err1 := db.MyDB().Select(&listposts, sql1, status)
-	if err1 != nil {
-		log.Println(err1)
-	}
 
 	//queryDate := time.Now().Format("2006-01-02")
 
@@ -84,15 +72,6 @@ func MainTimePunchSyncIntradayReset() {
 		ContactAPI(PunchJSON, key, hoursID, curl, TimePunchID, ClockedIn, ClockedOut)
 	}
 
-	//toggle keys
-	status = "disguise"
-	listposts = []ListPosts{}
-	sql3 := `exec crm.dbo.key_status $1`
-
-	err3 := db.MyDB().Select(&listposts, sql3, status)
-	if err3 != nil {
-		log.Println(err3)
-	}
 }
 
 //ContactAPI is a function that contacts the weather API.

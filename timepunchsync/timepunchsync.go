@@ -1,8 +1,6 @@
 package timepunchsync
 
 import (
-
-	//"database/sql"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -34,9 +32,6 @@ type (
 //MainTimePunchSync is a func
 func MainTimePunchSync() {
 
-	log.Println("hello")
-
-	var status string
 	var PunchID string
 	var PunchJSON string
 	var key string
@@ -45,16 +40,6 @@ func MainTimePunchSync() {
 	var TimePunchID string
 	var ClockedIn string
 	var ClockedOut string
-
-	//toggle keys
-	status = "reveal"
-	listposts := []ListPosts{}
-	sql1 := `exec crm.dbo.key_status $1`
-
-	err1 := db.MyDB().Select(&listposts, sql1, status)
-	if err1 != nil {
-		log.Println(err1)
-	}
 
 	//cache punches
 	TimePunchLists := []TimePunchList{}
@@ -83,15 +68,6 @@ func MainTimePunchSync() {
 		//log.Println("deleting from SQL cache table", PunchID)
 	}
 
-	//toggle keys
-	status = "disguise"
-	listposts = []ListPosts{}
-	sql3 := `exec crm.dbo.key_status $1`
-
-	err3 := db.MyDB().Select(&listposts, sql3, status)
-	if err3 != nil {
-		log.Println(err3)
-	}
 }
 
 //ContactAPI is a function that contacts the weather API.
@@ -132,10 +108,6 @@ func ContactAPI(PunchJSON string, key string, hoursID string, curl string, TimeP
 //PostToSQL is a function for posting to SQL
 func PostToSQL(text string, key string, hoursID string, ClockedIn string, ClockedOut string) {
 	//log.Println("Posting", text, hoursID, ClockedIn, ClockedOut)
-
-	//try adding error detection when parsing JSON
-	//try splitting post and delete into separate procedures
-	//try collecting iime punch data
 
 	listposts := []ListPosts{}
 	sqlQ := `exec crm.dbo.import_seven_shifts_punch_map $1, $2, $3, $4, $5`
