@@ -62,7 +62,7 @@ func MainTimePunches() {
 func ContactAPI(UserID string, key string) {
 
 	start := time.Now().AddDate(0, 0, -3).Format("2006-01-02")
-	//start := time.Now().AddDate(0, 0, -1).Format("2006-01-02")
+	//start := time.Now().AddDate(0, 0, -3).Format("2006-01-02")
 	log.Println("Getting TIMEPUNCHES for User:", UserID, start)
 
 	url := fmt.Sprintf("https://api.7shifts.com/v1/time_punches/?clocked_in=%s&user_id=%s", start, UserID)

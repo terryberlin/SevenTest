@@ -64,14 +64,14 @@ func main() {
 	//run once per day before syncing current intraday
 	if doIntradayReset {
 
-		//log.Println("Call USERS package")
-		//users.MainUsers()
+		log.Println("Call USERS package")
+		users.MainUsers()
 
-		//log.Println("Call USERS SYNC  package")
-		//userssync.MainUsersSync()
+		log.Println("Call USERS SYNC  package")
+		userssync.MainUsersSync()
 
-		//log.Println("Call USERS package")
-		//users.MainUsers()
+		log.Println("Call USERS package")
+		users.MainUsers()
 
 		log.Println("Call TIMEPUNCHES  package")
 		timepunches.MainTimePunches()
@@ -92,17 +92,17 @@ func main() {
 	//run throughout the day
 	if doIntradaySync {
 
-		//log.Println("Call USERS package")
-		//users.MainUsers()
+		log.Println("Call USERS package")
+		users.MainUsers()
 
-		//log.Println("Call USERS SYNC  package")
-		//userssync.MainUsersSync()
+		log.Println("Call USERS SYNC  package")
+		userssync.MainUsersSync()
 
-		//log.Println("Call USERS package")
-		//users.MainUsers()
+		log.Println("Call USERS package")
+		users.MainUsers()
 
-		//log.Println("Call TIMEPUNCHES  package")
-		//timepunches.MainTimePunches()
+		log.Println("Call TIMEPUNCHES  package")
+		timepunches.MainTimePunches()
 
 		log.Println("Call TIME PUNCH SYNC INTRADAY  package")
 		timepunchsyncintraday.MainTimePunchSyncIntraday()
@@ -125,7 +125,7 @@ func main() {
 
 	doUsersSync := false
 	doTimePunchSync := false
-	doTimePunchSyncIntraday := false
+	doTimePunchSyncIntraday := true
 
 	doTimePunchSyncIntradayReset := false
 	//flags for testing and one off runs
