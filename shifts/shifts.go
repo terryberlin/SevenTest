@@ -30,11 +30,13 @@ func MainShifts() {
 	var key string
 
 	sql2 := `
-        select user_id as UserID, api_key as APIKey
-        from quikserve.dbo.seven_shifts_users s
-        where api_key is not null
-        --and s.user_id in (1926968,2510397)
-        order by user_id
+		select distinct s.[user_id] as UserID, s.api_key as APIKey
+		from quikserve.dbo.seven_shifts_users s 
+		join quikserve.dbo.seven_shifts_locations l on s.qs_store_id=l.store_id
+		where s.[api_key] is not null
+		and l.active in (1)
+		--and s.user_id in (1926968,2510397)
+		order by s.[user_id]
     `
 
 	UserLists := []UserList{}
@@ -56,7 +58,7 @@ func MainShifts() {
 //ContactAPI is a function that contacts the weather API.
 func ContactAPI(UserID string, key string) {
 
-	start := time.Now().AddDate(0, 0, -1).Format("2006-01-02")
+	start := time.Now().AddDate(0, 0, -0).Format("2006-01-02")
 	log.Println("Getting SHIFTS for User:", UserID, start)
 
 	url := fmt.Sprintf("https://api.7shifts.com/v1/shifts/?start=%s&user_id=%s", start, UserID)
