@@ -48,13 +48,13 @@ func MainTimePunches() {
 		join QuikServe.dbo.seven_shifts_locations l on r.StoreId=l.store_id
 		join QuikServe.dbo.seven_shifts_users u on u.qs_emplID=r.empl_id
 		where l.active=1
-		union 
+		union
 		select distinct u.[user_id] as UserID, u.[api_key] as APIKey --, e.emplid, e.emp_name
 		from quikserve.dbo.employee_hours e join quikserve.dbo.stores s on e.Store_No=s.STORE_NO
 		join QuikServe.dbo.seven_shifts_locations l on l.store_id=s.id
 		join QuikServe.dbo.seven_shifts_users u on u.qs_emplID=e.emplid
 		where l.active=1
-		and e.Bus_Date=convert(date,dateadd(d,-1,getdate()))	
+		and e.Bus_Date=convert(date,dateadd(d,-1,getdate()))
 	`
 
 	UserLists := []UserList{}
