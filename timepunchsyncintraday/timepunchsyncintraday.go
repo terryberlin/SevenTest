@@ -109,7 +109,7 @@ func ContactAPI(PunchJSON string, key string, hoursID string, curl string, TimeP
 
 //PostToSQL is a function for posting to SQL
 func PostToSQL(text string, key string, hoursID string, ClockedIn string, ClockedOut string) {
-
+	log.Println(text)
 	listposts := []ListPosts{}
 	sqlQ := `exec crm.dbo.import_seven_shifts_punch_map $1, $2, $3, $4, $5`
 
